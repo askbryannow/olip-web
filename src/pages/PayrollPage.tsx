@@ -6,7 +6,7 @@ import { ChartCard, Legend } from '../components/ChartCard';
 import { ChartTooltip, axisTick, gridStroke } from '../components/ChartTheme';
 import { fmtMYR, fmtNum, fmtPct } from '../lib/filters';
 import { endMonth, overtimeByDept, overtimeFor, payrollCostFor, payrollPctRevenueByOutlet, payrollTrend, revenueFor } from '../lib/selectors';
-import { getDataset } from '../data/generate';
+import { getDataset } from '../data/store';
 
 export function PayrollPage() {
   const { filters } = useFilters();

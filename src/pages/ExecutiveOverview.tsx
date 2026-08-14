@@ -21,7 +21,7 @@ import {
   turnoverRateTrailing,
   overtimeFor,
 } from '../lib/selectors';
-import { getDataset } from '../data/generate';
+import { getDataset } from '../data/store';
 
 export function ExecutiveOverview() {
   const { filters } = useFilters();

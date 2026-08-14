@@ -1,4 +1,4 @@
-import { getDataset } from '../data/generate';
+import { getDataset } from '../data/store';
 import type { CalendarMonth, Department, Filters } from '../data/types';
 import { activeEmployeesAt, endMonth, matchesDims, monthEndDate, monthStartDate, trailingMonths } from './filters';
 

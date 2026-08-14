@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useFilters } from '../lib/FiltersContext';
-import { getDataset } from '../data/generate';
+import { getDataset } from '../data/store';
 import { BUSINESS_UNITS, EMPLOYMENT_TYPES, STATES } from '../data/outlets';
 
 function Select({

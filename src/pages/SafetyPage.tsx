@@ -7,7 +7,7 @@ import { ChartTooltip, axisTick, gridStroke } from '../components/ChartTheme';
 import { fmtNum } from '../lib/filters';
 import { STATUS } from '../lib/colors';
 import { complianceByOutlet, endMonth, incidentsByOutlet, ltifrTrend } from '../lib/selectors';
-import { getDataset } from '../data/generate';
+import { getDataset } from '../data/store';
 
 export function SafetyPage() {
   const { filters } = useFilters();

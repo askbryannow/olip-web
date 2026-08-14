@@ -7,7 +7,7 @@ import { ChartTooltip, axisTick, gridStroke } from '../components/ChartTheme';
 import { Funnel } from '../components/Funnel';
 import { fmtMYR, fmtNum } from '../lib/filters';
 import { costPerHireTrend, endMonth, recruitmentFunnel, timeToHireTrend, vacancyAging } from '../lib/selectors';
-import { getDataset } from '../data/generate';
+import { getDataset } from '../data/store';
 
 export function RecruitmentPage() {
   const { filters } = useFilters();

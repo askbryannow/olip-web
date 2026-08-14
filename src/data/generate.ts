@@ -1,6 +1,7 @@
 import { Rand } from './rng';
 import { OUTLETS } from './outlets';
 import { FIRST_NAMES_M, FIRST_NAMES_F, LAST_NAMES } from './names';
+import { buildCalendar } from './calendar';
 import type {
   CalendarMonth,
   Dataset,
@@ -38,24 +39,6 @@ const BU_SALARY_MULT: Record<string, number> = {
 const FRONTLINE_DEPTS = new Set<Department>([
   'Sales', 'Store Operations', 'F&B Service', 'Kitchen', 'Warehouse', 'Logistics', 'Customer Service', 'Maintenance',
 ]);
-
-function buildCalendar(): CalendarMonth[] {
-  const months: CalendarMonth[] = [];
-  for (let i = WINDOW_MONTHS - 1; i >= 0; i--) {
-    const d = new Date(TODAY.getFullYear(), TODAY.getMonth() - i, 1);
-    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-    const label = d.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
-    months.push({
-      key,
-      label,
-      year: d.getFullYear(),
-      month: d.getMonth() + 1,
-      date: d,
-      isCurrent: i === 0,
-    });
-  }
-  return months;
-}
 
 function monthEnd(d: Date): Date {
   return new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59);
@@ -450,9 +433,10 @@ function generateBusiness(calendar: CalendarMonth[], employees: Employee[], r: R
 
 let cached: Dataset | null = null;
 
-export function getDataset(): Dataset {
+/** The deterministic seeded demo dataset, used when no real backend data is available. */
+export function buildMockDataset(): Dataset {
   if (cached) return cached;
-  const calendar = buildCalendar();
+  const calendar = buildCalendar(TODAY, WINDOW_MONTHS);
   const employees = simulateEmployees(calendar);
   const r = new Rand(777001);
   cached = {

@@ -7,7 +7,7 @@ import { ChartTooltip, axisTick, gridStroke } from '../components/ChartTheme';
 import { CATEGORICAL } from '../lib/colors';
 import { fmtNum, fmtPct } from '../lib/filters';
 import { absenteeismTrend, endMonth, lateClockInsByDept, lateClockInsTrend, leaveByType } from '../lib/selectors';
-import { getDataset } from '../data/generate';
+import { getDataset } from '../data/store';
 
 export function AttendancePage() {
   const { filters } = useFilters();

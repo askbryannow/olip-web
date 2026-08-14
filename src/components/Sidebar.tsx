@@ -1,3 +1,6 @@
+import { useAppData } from '../lib/AppDataContext';
+import type { DataEntryPageKey } from '../admin/DataEntryRouter';
+
 export type PageKey =
   | 'exec'
   | 'recruitment'
@@ -21,8 +24,31 @@ const NAV: { key: PageKey; label: string; group: string }[] = [
   { key: 'safety', label: 'Safety', group: 'Drill-through' },
 ];
 
-export function Sidebar({ page, onNavigate }: { page: PageKey; onNavigate: (p: PageKey) => void }) {
+const ENTRY_NAV: { key: DataEntryPageKey; label: string }[] = [
+  { key: 'checklist', label: 'Monthly Checklist' },
+  { key: 'employees', label: 'Employees' },
+  { key: 'outlets', label: 'Outlets' },
+  { key: 'overtime', label: 'Overtime' },
+  { key: 'attendance', label: 'Attendance & Leave' },
+  { key: 'recruitment', label: 'Recruitment' },
+  { key: 'training', label: 'Training & HRDC' },
+  { key: 'engagement', label: 'Engagement Surveys' },
+  { key: 'incidents', label: 'Safety Incidents' },
+  { key: 'business', label: 'Business Performance' },
+];
+
+interface SidebarProps {
+  section: 'dashboard' | 'data-entry';
+  page: PageKey;
+  entryPage: DataEntryPageKey;
+  onNavigate: (p: PageKey) => void;
+  onNavigateEntry: (p: DataEntryPageKey) => void;
+}
+
+export function Sidebar({ section, page, entryPage, onNavigate, onNavigateEntry }: SidebarProps) {
+  const { logout } = useAppData();
   const groups = ['Overview', 'Drill-through'];
+
   return (
     <aside className="w-56 shrink-0 border-r border-[var(--border-hairline)] bg-[var(--surface-1)] flex flex-col h-full">
       <div className="px-4 py-4 border-b border-[var(--border-hairline)]">
@@ -38,7 +64,7 @@ export function Sidebar({ page, onNavigate }: { page: PageKey; onNavigate: (p: P
                 key={n.key}
                 onClick={() => onNavigate(n.key)}
                 className={`w-full text-left px-4 py-2 text-[13px] transition-colors border-l-2 ${
-                  page === n.key
+                  section === 'dashboard' && page === n.key
                     ? 'border-[var(--series-1)] bg-[color-mix(in_srgb,var(--series-1)_10%,transparent)] text-[var(--text-primary)] font-medium'
                     : 'border-transparent text-[var(--text-secondary)] hover:bg-[var(--surface-2)]'
                 }`}
@@ -48,9 +74,31 @@ export function Sidebar({ page, onNavigate }: { page: PageKey; onNavigate: (p: P
             ))}
           </div>
         ))}
+        <div className="mb-3">
+          <div className="px-4 pb-1 text-[10px] font-semibold uppercase tracking-wide text-[var(--text-muted)]">Data Entry</div>
+          {ENTRY_NAV.map((n) => (
+            <button
+              key={n.key}
+              onClick={() => onNavigateEntry(n.key)}
+              className={`w-full text-left px-4 py-2 text-[13px] transition-colors border-l-2 ${
+                section === 'data-entry' && entryPage === n.key
+                  ? 'border-[var(--series-3)] bg-[color-mix(in_srgb,var(--series-3)_10%,transparent)] text-[var(--text-primary)] font-medium'
+                  : 'border-transparent text-[var(--text-secondary)] hover:bg-[var(--surface-2)]'
+              }`}
+            >
+              {n.label}
+            </button>
+          ))}
+        </div>
       </nav>
+      <div className="border-t border-[var(--border-hairline)] p-3">
+        <button
+          onClick={logout}
+          className="w-full rounded-md px-3 py-1.5 text-[12px] font-medium text-[var(--text-secondary)] hover:bg-[var(--surface-2)] text-left"
+        >
+          Sign out
+        </button>
+      </div>
     </aside>
   );
 }
-
-export { NAV };
