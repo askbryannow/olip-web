@@ -39,6 +39,13 @@ export type LoadResult = { status: 'ready'; source: DataSource } | { status: 'lo
 
 /** Loads the dashboard's dataset: live API data if reachable & authenticated, otherwise the seeded demo dataset. */
 export async function loadDataset(): Promise<LoadResult> {
+  if (import.meta.env.VITE_FORCE_DEMO === 'true') {
+    // Static/offline preview build (e.g. a standalone HTML export) — never attempt a network call.
+    dataset = buildMockDataset();
+    source = 'standalone';
+    return { status: 'ready', source };
+  }
+
   if (!getToken()) {
     // No session yet — try an unauthenticated ping to tell "backend down" apart from "backend needs login".
     // A dev-server proxy error (e.g. 502) resolves as a normal response rather than throwing, so check res.ok too.

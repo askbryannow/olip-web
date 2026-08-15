@@ -1,5 +1,7 @@
 import { ChecklistPage } from './ChecklistPage';
 import { EntityTable } from './EntityTable';
+import { BackendRequiredNotice } from './BackendRequiredNotice';
+import { useAppData } from '../lib/AppDataContext';
 import {
   outletsConfig,
   employeesConfig,
@@ -24,7 +26,25 @@ export type DataEntryPageKey =
   | 'incidents'
   | 'business';
 
+const TITLES: Record<DataEntryPageKey, string> = {
+  checklist: 'Monthly Checklist',
+  outlets: 'Outlets',
+  employees: 'Employees',
+  overtime: 'Overtime',
+  attendance: 'Attendance & Leave',
+  recruitment: 'Recruitment',
+  training: 'Training & HRDC',
+  engagement: 'Engagement Surveys',
+  incidents: 'Safety Incidents',
+  business: 'Business Performance',
+};
+
 export function DataEntryRouter({ page }: { page: DataEntryPageKey; onNavigate: (p: DataEntryPageKey) => void }) {
+  const { source } = useAppData();
+  if (source === 'standalone') {
+    return <BackendRequiredNotice title={TITLES[page]} />;
+  }
+
   switch (page) {
     case 'checklist':
       return <ChecklistPage />;

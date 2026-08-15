@@ -49,6 +49,10 @@ Run them separately instead with `npm run dev` (frontend) and `npm run dev:serve
 2. Fill in each table (overtime, attendance, recruitment, training, engagement, incidents, business performance) for every outlet. Record any new hires/exits on the **Employees** page as they happen — they don't need a separate monthly entry.
 3. Click "Refresh dashboard data" (or reload the app) — the Executive Overview and every drill-through page now reflect the new month.
 
+## Standalone demo preview
+
+`npm run build:demo` produces `dist-singlefile/index.html` — a single self-contained HTML file, always running on the seeded demo dataset, with no backend required. Useful for sharing a clickable preview of the dashboard (e.g. as a Claude Artifact). Data Entry pages show an explanatory notice instead of forms in this mode, since there's no database to read or write.
+
 ## Data model
 
 `src/data/types.ts` defines the shape: employee master, overtime, attendance, recruitment, training, engagement, incidents, business performance, plus a calendar table computed from the real current date. `server/src/db.ts` mirrors this as SQLite tables. `src/lib/selectors.ts` aggregates the data per page, respecting the active filters, against whichever dataset is loaded (live API data, or the seeded demo data as fallback — see `src/data/store.ts`).
