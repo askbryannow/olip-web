@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             OutletSeeder::class,
             SampleDataSeeder::class,
+            BlipEmbassySeeder::class,
         ]);
     }
 }

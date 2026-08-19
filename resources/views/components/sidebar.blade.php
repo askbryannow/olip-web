@@ -24,6 +24,12 @@
         ['route' => 'entry.incidents', 'label' => 'Safety Incidents'],
         ['route' => 'entry.business', 'label' => 'Business Performance'],
     ];
+    $blipNav = [
+        ['route' => 'blip.pipeline', 'label' => 'Leadership Pipeline'],
+        ['route' => 'blip.registrations', 'label' => 'Registrations'],
+        ['route' => 'blip.cohorts', 'label' => 'Cohorts'],
+        ['route' => 'blip.stamps', 'label' => 'Award Stamps'],
+    ];
 
     $navLink = function (array $item) {
         $active = request()->routeIs($item['route']);
@@ -56,6 +62,12 @@
         <div class="mb-3">
             <div class="px-4 pb-1 text-[10px] font-semibold uppercase tracking-wide text-[var(--text-muted)]">Data Entry</div>
             @foreach ($entryNav as $item)
+                {!! $navLink($item) !!}
+            @endforeach
+        </div>
+        <div class="mb-3">
+            <div class="px-4 pb-1 text-[10px] font-semibold uppercase tracking-wide text-[var(--text-muted)]">BLIP Leadership</div>
+            @foreach ($blipNav as $item)
                 {!! $navLink($item) !!}
             @endforeach
         </div>

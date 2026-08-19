@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PortalAuthController;
+use App\Livewire\Blip;
 use App\Livewire\Dashboard;
 use App\Livewire\Entry;
+use App\Livewire\Portal;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [AuthController::class, 'show'])->name('login');
@@ -31,5 +34,25 @@ Route::middleware('admin.session')->group(function () {
         Route::get('/engagement', Entry\Engagement::class)->name('engagement');
         Route::get('/incidents', Entry\Incidents::class)->name('incidents');
         Route::get('/business-performance', Entry\Business::class)->name('business');
+    });
+
+    Route::prefix('blip')->name('blip.')->group(function () {
+        Route::get('/registrations', Blip\Registrations::class)->name('registrations');
+        Route::get('/cohorts', Blip\Cohorts::class)->name('cohorts');
+        Route::get('/stamps', Blip\Stamps::class)->name('stamps');
+        Route::get('/pipeline', Blip\Pipeline::class)->name('pipeline');
+    });
+});
+
+// BLIP employee portal — separate login, separate "employee" guard, for individual staff.
+Route::prefix('portal')->name('portal.')->group(function () {
+    Route::get('/register', Portal\Register::class)->name('register');
+    Route::get('/login', [PortalAuthController::class, 'show'])->name('login');
+    Route::post('/login', [PortalAuthController::class, 'login'])->name('login.submit');
+    Route::post('/logout', [PortalAuthController::class, 'logout'])->name('logout');
+
+    Route::middleware('auth:employee')->group(function () {
+        Route::get('/', Portal\Passport::class)->name('passport');
+        Route::get('/enroll', Portal\Enroll::class)->name('enroll');
     });
 });
